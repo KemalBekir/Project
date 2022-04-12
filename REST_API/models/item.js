@@ -1,22 +1,30 @@
-const { model, Schema, Types: { ObjectId} } = require('mongoose');
+const {
+  model,
+  Schema,
+  Types: { ObjectId },
+} = require("mongoose");
 
 //TODO: Change fields depending on the project
-const schema = new Schema({
-    make: { type: String, minlength: [4, 'Make must contain atleast 4 characters'], required: [true, `Make is required`] },
-    model: { type: String, minlength: [4, 'Make must contain atleast 4 characters'], required: [true, 'Model is required'] },
-    year: {
-        type: Number,
-        min: [1950, 'Year must be between 1950 and 2050'],
-        max: [2050, 'Year must be between 1950 and 2050'],
-        required: true
+const schema = new Schema(
+  {
+    name: {
+      type: String,
+      minlength: [4, "Make must contain atleast 4 characters"],
+      required: [true, `Item name is required`],
     },
-    description: { type: String, },
-    price: { type: Number },
+    description: { type: String },
+    location: { type: String, required: [true, "Location is required"] },
+    price: {
+      type: Number,
+      min: [0, "Price must be postive number"],
+      default: 0,
+    },
     img: { type: String },
-    material: { type: String },
-    owner: { type: ObjectId, ref: 'User'}
-});
+    owner: { type: ObjectId, ref: "User" },
+  },
+  { timestamps: true }
+);
 
-const Item = model('Item', schema);
+const Item = model("Item", schema);
 
 module.exports = Item;

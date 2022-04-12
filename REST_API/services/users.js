@@ -8,7 +8,7 @@ const JWT_SECRET = 'dadsadadadadsdfgsafads';
 const blacklist = [];
 
 //TODO: Change required fields depending on requiremenets
-async function register(email, password) {
+async function register(username,email, password, tel) {
     const existing = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
 
     if (existing) {
@@ -16,8 +16,10 @@ async function register(email, password) {
     }
 
     const user = new User({
+        username,
         email,
-        hashedPassword: await bcrypt.hash(password, 10)
+        hashedPassword: await bcrypt.hash(password, 10),
+        tel,
     });
 
     await user.save();
@@ -31,7 +33,6 @@ function logout(token){
 
 async function login(email, password) {
     const user = await User.findOne({ email: new RegExp(`^${email}$`, 'i') });
-
     if (!user) {
         throw new Error('Incorrect email or password');
     }
@@ -50,7 +51,7 @@ function createSession(user){
     return {
         email: user.email,
         _id: user._id,
-        accessToekN: jwt.sign({
+        accessToken: jwt.sign({
             email: user.email,
             _id: user._id
         }, JWT_SECRET)
@@ -61,7 +62,7 @@ function verifySession(token){
     if(blacklist.includes(token)){
         throw new Error('Token is ivalidated');
     }
-    
+
     const payload = jwt.verify(token, JWT_SECRET);
     return {
         email: payload.email,

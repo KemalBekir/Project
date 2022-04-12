@@ -4,6 +4,10 @@ async function getAll(){
     return Item.find({});
 }
 
+async function getLastTree(){
+    return Item.find({}).limit(3);
+}
+
 function getById(id){
     return Item.findById(id);
 }
@@ -20,13 +24,11 @@ async function update(id, item){
 
      //TODO: Change names according to requirements
 
-    existing.make = item.make;
-    existing.model = item.model;
-    existing.year = item.year;
+    existing.name = item.name;
     existing.description = item.description;
+    existing.location = item.location,
     existing.price = item.price;
     existing.img = item.img;
-    existing.material = item.material;
 
     await existing.save();
 
@@ -44,4 +46,5 @@ module.exports = {
     getById,
     update,
     deleteById,
+    getLastTree,
 }

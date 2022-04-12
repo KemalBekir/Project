@@ -12,13 +12,12 @@ router.get('/', async (req, res) => {
 
 router.post('/', isAuth(), async (req, res) => {
     const item = {
-        make: req.body.make,
-        model: req.body.model,
-        year: req.body.year,
+        name: req.body.name,
         description: req.body.description,
+        location: req.body.location,
+        tel: req.body.tel,
         price: req.body.price,
         img: req.body.img,
-        material: req.body.material,
         owner: req.user._id
     };
 
@@ -42,13 +41,12 @@ router.get('/:id', preload(), (req, res) => {
 router.put('/:id', preload(), isOwner(),async (req, res) => {
     const id = req.params.id;
     const item = {
-        make: req.body.make,
-        model: req.body.model,
-        year: req.body.year,
+        name: req.body.name,
         description: req.body.description,
+        location: req.body.location,
+        tel: req.body.tel,
         price: req.body.price,
         img: req.body.img,
-        material: req.body.material
     };
 
     try {

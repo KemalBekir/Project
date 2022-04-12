@@ -1,1 +1,62 @@
-<p>catalog-new-page works!</p>
+<section class="h-100">
+  <div class="container h-100">
+    <div class="row justify-content-sm-center h-100 mt-5">
+      <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+        <div class="card shadow-lg">
+          <div class="card-body p-5">
+            <h1 class="fs-4 card-title fw-bold mb-4">Create listing</h1>
+            <form class="needs-validation" #newItemForm="ngForm" (ngSubmit)="submitNewItem(newItemForm)">
+              <ng-container *ngIf="errorMessage">{{errorMessage}}</ng-container>
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="name">Name</label>
+                <input id="name" type="text" class="form-control" name="name" #name="ngModel" ngModel required
+                  minlength="4">
+                <div class="invalid-feedback">
+                  Name is invalid
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="description">Description</label>
+                <textarea class="form-control" id="description" #description="ngModel" ngModel rows="3"></textarea>
+
+              </div>
+
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="location">Location</label>
+                <input id="location" type="text" class="form-control" name="location" #location="ngModel" ngModel
+                  required minlength="5">
+                <div class="invalid-feedback">
+                  Location is required
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="price">Price</label>
+                <input id="price" type="number" class="form-control" name="price" #price="ngModel" ngModel required
+                  min="0">
+                <div class="invalid-feedback">
+                  Price is required
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="mb-2 text-muted" for="imgUrl">Image</label>
+                <input id="imgUrl" type="text" class="form-control" name="imgUrl" #imgUrl="ngModel" ngModel required
+                  min="0">
+                <div class="invalid-feedback">
+                  Price is required
+                </div>
+              </div>
+              <div class="align-items-center d-flex ">
+                <button class="btn btn-danger ms-auto">
+                  Cancel
+                </button>
+                <button class="btn btn-primary ms-auto">
+                  Create
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

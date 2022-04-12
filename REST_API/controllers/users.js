@@ -9,7 +9,7 @@ router.post('/register', isGuest(), async (req, res) => {
             throw new Error('Email and password are required');
         }
 
-        const result = await register(req.body.email.trim().toLowerCase(), req.body.password.trim())
+        const result = await register(req.body.username,req.body.email.trim().toLowerCase(), req.body.password.trim(), req.body.tel);
         res.status(201).json(result);
     } catch (err) {
         console.error(err.message);
@@ -20,7 +20,7 @@ router.post('/register', isGuest(), async (req, res) => {
 
 router.post('/login', isGuest(),async (req, res) => {
     try {
-        const result = await login(req.body.email.trim().toLowerCase(), req.body.password.trim())
+        const result = await login(req.body.email.trim().toLowerCase(), req.body.password.trim());
         res.json(result);
     } catch (err) {
         console.error(err.message);

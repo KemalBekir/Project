@@ -10,7 +10,7 @@ start();
 
 async function start() {
     //TODO: Give DB appropriate name for the project
-    const dbName = 'data';
+    const dbName = 'marketplace';
     //TODO: Change PORT Number
     const PORT = 3030;
     try {

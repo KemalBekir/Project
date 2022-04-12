@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -13,9 +13,7 @@ import { FooterComponent } from './core/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -30,10 +28,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   providers: [
 
   ],
-  bootstrap: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
-  ]
+  bootstrap: [AppComponent, HeaderComponent, FooterComponent],
 })
-export class AppModule { }
+export class AppModule {}
