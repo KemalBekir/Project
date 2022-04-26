@@ -17,11 +17,12 @@ export class CatalogNewPageComponent implements OnInit {
   }
 
   submitNewItem(newItemForm: NgForm) : void {
-    console.log(newItemForm);
+    // console.log('---->submitNewItem',newItemForm.value);
     this.catalogService.addItem$(newItemForm.value).subscribe({
       next: (item) => {
-        console.log(item);
-        this.router.navigate['/catalog'];
+        console.log('addItem next', item);
+
+        this.router.navigate(['/catalog']);
       },
       error: (err) => {
         console.error(err);

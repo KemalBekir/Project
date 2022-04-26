@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/core/user.service';
 
 @Component({
   selector: 'app-catalog-page',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./catalog-page.component.css']
 })
 export class CatalogPageComponent implements OnInit {
+
 
   constructor() { }
 

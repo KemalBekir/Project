@@ -11,11 +11,15 @@ import { passMatch } from '../util';
 })
 export class RegisterComponent implements OnInit {
 
+  isSuccessful: boolean = false;
+  isSignUpFailed: boolean = false;
+  errorMessage: string = '';
+
   passwordControl = new FormControl(null, [Validators.required, Validators.minLength(5)]);
 
   registerFormGroup: FormGroup = this.formBuilder.group({
     'username': new FormControl(null, [Validators.required, Validators.minLength(5)]),
-    'email': new FormControl(null, [Validators.required,]),
+    'email': new FormControl(null, [Validators.required, Validators.email]),
     'password': this.passwordControl,
     'rePass': new FormControl(null, [passMatch(this.passwordControl)]),
     'tel': new FormControl(''),
@@ -40,8 +44,17 @@ export class RegisterComponent implements OnInit {
       body.tel = telRegion + tel;
     }
 
-    this.userService.register$(body).subscribe(() => {
-      this.router.navigate(['/home']);
+    this.userService.register$(body).subscribe({
+      next: data => {
+        console.log(data);
+
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+      },
+      error: err => {
+        this.errorMessage
+      }
+      //this.router.navigate(['/home']);
     })
   }
 

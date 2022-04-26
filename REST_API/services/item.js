@@ -1,20 +1,25 @@
 const Item = require('../models/item');
+const User = require('../models/user');
 
 async function getAll(){
     return Item.find({});
 }
 
-async function getLastTree(){
-    return Item.find({}).limit(3);
+async function getTopFive(){
+    return Item.find({}).sort({ createdAt: 'desc'}).limit(5);
 }
 
 function getById(id){
-    return Item.findById(id);
+    return Item.findById(id).populate('owner');
 }
 
 async function create(item){
     const result = new Item(item);
     await result.save();
+
+    const user = await User.findById(result.owner);
+    user.myAds.push(result._id);
+    await user.save();
 
     return result;
 }
@@ -46,5 +51,5 @@ module.exports = {
     getById,
     update,
     deleteById,
-    getLastTree,
+ getTopFive,
 }

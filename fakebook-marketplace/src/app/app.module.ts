@@ -19,14 +19,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     HttpClientModule,
     RouterModule,
     CoreModule.forRoot(),
-    AppRoutingModule,
     CatalogModule,
     PagesModule,
     AuthModule,
     NgbModule,
+    AppRoutingModule,
   ],
   providers: [
-
   ],
   bootstrap: [AppComponent, HeaderComponent, FooterComponent],
 })

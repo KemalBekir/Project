@@ -20,7 +20,7 @@ import { CatalogRoutingModule } from "./catalog-routing.module";
   imports: [
     CommonModule,
     CatalogRoutingModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
 

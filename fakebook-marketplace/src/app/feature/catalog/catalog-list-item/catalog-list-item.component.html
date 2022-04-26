@@ -1,0 +1,13 @@
+<div class="container justify-content-center">
+<div class="card m-3" style="width: 18rem;">
+  <img class="card-img-top" src={{item.img}} alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">{{item.name}}</h5>
+    <p class="card-text">{{(item.description.length > 15) ? (item.description | slice: 0:15) + '...': (item.description)}}</p>
+    <a [routerLink]="['/catalog', item._id]"  class="btn btn-primary">Details</a>
+  </div>
+  <div class="card-footer">
+    <small class="text-muted">Last updated {{item.updatedAt | date: 'long'}}</small>
+  </div>
+</div>
+</div>

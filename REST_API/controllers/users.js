@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { isGuest } = require('../middleware/guards');
-const { register, login, logout } = require('../services/users');
+const { isGuest, isAuth } = require('../middleware/guards');
+const { register, login, logout, getProfile } = require('../services/users');
 const mapErrors = require('../utils/mappers');
 
 router.post('/register', isGuest(), async (req, res) => {
@@ -28,6 +28,18 @@ router.post('/login', isGuest(),async (req, res) => {
         res.status(400).json({ message: error });
     }
 });
+
+router.get('/profile', isAuth(), async (req,res) =>{
+    try{
+        console.log(req.params);
+        const result = await getProfile(req.user);
+        res.status(200).json(result);
+    } catch (err) {
+        console.error(err);
+        const error = mapErrors(err);
+        res.status(400).json({ message: error});
+    }
+})
 
 router.get('/logout', (req, res) => {
     logout(req.user?.token);

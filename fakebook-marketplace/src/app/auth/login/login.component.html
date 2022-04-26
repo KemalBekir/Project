@@ -1,28 +1,46 @@
-<section class="h-100" >
+<section class="h-100">
   <div class="container h-100">
     <div class="row justify-content-sm-center h-100 mt-5">
       <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
         <div class="card shadow-lg">
           <div class="card-body p-5">
             <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
-            <form [formGroup]="loginFormGroup" (ngSubmit)="loginHandler()" class="needs-validation" >
+            <form [formGroup]="loginFormGroup" (ngSubmit)="handleLogin()" class="needs-validation">
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="email">E-Mail Address</label>
-                <input formControlName="email" id="email" type="email" class="form-control" name="email"  required>
-                <div class="invalid-feedback">
-                  Email is invalid
-                </div>
+                <input formControlName="email" id="email" type="email" class="form-control" name="email" required email="true">
+                <ng-container
+                  *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid">
+
+                    <p *ngIf="loginFormGroup.controls['email'].errors.required" class="error mt-1">
+                      Email is required!
+                  </p>
+
+
+                    <p *ngIf="loginFormGroup.controls['email'].errors.email" class="error">
+                      Email is not valid!
+                  </p>
+
+                </ng-container>
               </div>
 
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="password">Password</label>
-                <input formControlName="password" id="password" type="password" class="form-control" name="password" required>
-                  <div class="invalid-feedback">
-                    Password is required
-                  </div>
+                <input formControlName="password" id="password" type="password" class="form-control" name="password"
+                  required password>
+                <ng-container
+                  *ngIf="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid">
+                  <p *ngIf="loginFormGroup.controls['password'].errors.required" class="error mt-1">
+                    Password is required!
+                </p>
+                <p *ngIf="loginFormGroup.controls['password'].errors.minlength" class="error mt-1">
+                  Password must be at least 5 characters!
+              </p>
+
+                </ng-container>
               </div>
               <div class="align-items-center d-flex">
-                <button  class="btn btn-primary ms-auto">
+                <button class="btn btn-primary ms-auto" [disabled]="loginFormGroup.invalid">
                   Login
                 </button>
               </div>
@@ -30,7 +48,7 @@
           </div>
           <div class="card-footer py-3 border-0">
             <div class="text-center">
-              Don't have account sing up here? <a routerLink="/register"class="text-dark">Register</a>
+              Don't have account sing up here? <a routerLink="/register" class="text-dark">Register</a>
             </div>
           </div>
         </div>

@@ -10,7 +10,13 @@ router.get('/', async (req, res) => {
     res.json(data);
 });
 
+router.get('/top5', async (req,res) =>{
+    const data = await api.getTopFive();
+    res.json(data);
+});
+
 router.post('/', isAuth(), async (req, res) => {
+    console.log('Catalog create route', req.body);
     const item = {
         name: req.body.name,
         description: req.body.description,

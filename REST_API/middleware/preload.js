@@ -2,7 +2,7 @@ const { getById } = require("../services/item");
 
 
 
-module.exports = () => async (req, res, next) => {
+module.exports = (preload) => async (req, res, next) => {
     const id = req.params.id;
     try {
         const item = await getById(id).lean();

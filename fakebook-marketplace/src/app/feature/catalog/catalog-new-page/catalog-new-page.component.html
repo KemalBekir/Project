@@ -6,7 +6,9 @@
           <div class="card-body p-5">
             <h1 class="fs-4 card-title fw-bold mb-4">Create listing</h1>
             <form class="needs-validation" #newItemForm="ngForm" (ngSubmit)="submitNewItem(newItemForm)">
-              <ng-container *ngIf="errorMessage">{{errorMessage}}</ng-container>
+              <ng-container *ngIf="errorMessage">
+                <div class="alert alert-danger .fade">{{errorMessage}}</div>
+              </ng-container>
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="name">Name</label>
                 <input id="name" type="text" class="form-control" name="name" #name="ngModel" ngModel required
@@ -17,7 +19,7 @@
               </div>
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="description">Description</label>
-                <textarea class="form-control" id="description" #description="ngModel" ngModel rows="3"></textarea>
+                <textarea class="form-control" id="description" #description="ngModel" name="description" ngModel rows="3"></textarea>
 
               </div>
 
@@ -38,15 +40,14 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label class="mb-2 text-muted" for="imgUrl">Image</label>
-                <input id="imgUrl" type="text" class="form-control" name="imgUrl" #imgUrl="ngModel" ngModel required
-                  min="0">
+                <label class="mb-2 text-muted" for="img">Image</label>
+                <input id="img" type="text" class="form-control" name="img" #img="ngModel" ngModel required min="0">
                 <div class="invalid-feedback">
                   Price is required
                 </div>
               </div>
               <div class="align-items-center d-flex ">
-                <button class="btn btn-danger ms-auto">
+                <button class="btn btn-danger ms-auto" routerLink="/catalog">
                   Cancel
                 </button>
                 <button class="btn btn-primary ms-auto">

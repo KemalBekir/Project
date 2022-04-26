@@ -3,20 +3,21 @@ import { CatalogService } from 'src/app/core/catalog.service';
 import { IItem } from 'src/app/core/interfaces';
 
 @Component({
-  selector: 'app-catalog-list',
-  templateUrl: './catalog-list.component.html',
-  styleUrls: ['./catalog-list.component.css']
+  selector: 'app-home-page-list',
+  templateUrl: './home-page-list.component.html',
+  styleUrls: ['./home-page-list.component.css']
 })
-export class CatalogListComponent implements OnInit {
+export class HomePageListComponent implements OnInit {
 
   itemList: IItem[];
+  firstItem: IItem;
 
   constructor(private catalogService: CatalogService) { }
 
   ngOnInit(): void {
-    this.catalogService.loadItemsList().subscribe(itemList => {
+    this.catalogService.loadTopFive().subscribe( itemList =>{
       this.itemList = itemList;
-    });
+    })
   }
 
 }

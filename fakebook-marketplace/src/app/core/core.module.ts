@@ -1,8 +1,10 @@
 import { CommonModule } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CatalogService } from "./catalog.service";
 import { FooterComponent } from "./footer/footer.component";
+import { AuthActivate } from "./guards/auth.guard";
 import { HeaderComponent } from "./header/header.component";
 import { storageServiceProvider } from "./storage.service";
 import { UserService } from "./user.service";
@@ -21,7 +23,9 @@ import { UserService } from "./user.service";
     HeaderComponent,
     FooterComponent
   ],
-  providers: []
+  providers: [
+
+  ]
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
@@ -31,7 +35,7 @@ export class CoreModule {
         UserService,
         storageServiceProvider,
         CatalogService,
-
+        AuthActivate,
       ]
     }
   }

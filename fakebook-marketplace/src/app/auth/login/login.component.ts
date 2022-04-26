@@ -1,44 +1,65 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StorageService } from 'src/app/core/storage.service';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/user.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   errorMessage: string = '';
+  isLoginFailed: boolean = false;
+  isLoggedIn: boolean = false;
 
   loginFormGroup: FormGroup = this.formBuilder.group({
-    'email': new FormControl('', [Validators.required,]),
-    'password': new FormControl('', [Validators.required, Validators.minLength(5)])
-  })
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
+  });
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private storage: StorageService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+
   }
 
-  loginHandler(): void {
+
+
+  handleLogin(): void {
     this.errorMessage = '';
     this.userService.login$(this.loginFormGroup.value).subscribe({
       next: () => {
-
-        this.router.navigate(['/home']);
+        this.isLoggedIn = true;
+        this.isLoginFailed = false;
+        if (this.activatedRoute.snapshot.queryParams['redirect-to']) {
+          this.router.navigateByUrl(
+            this.activatedRoute.snapshot.queryParams['redirect-to']
+          );
+        } else {
+          this.router.navigate(['/home']);
+        }
       },
       complete: () => {
-        console.log('----->', this.userService.currentUser);
-
         console.log('login stream completed');
-
       },
       error: (err) => {
         this.errorMessage = err.error.message;
-      }
-    })
-
+        this.isLoginFailed = true;
+      },
+    });
   }
 }
