@@ -1,55 +1,68 @@
-const Item = require('../models/item');
-const User = require('../models/user');
+const Item = require("../models/item");
+const User = require("../models/user");
 
-async function getAll(){
-    return Item.find({});
+async function getAll() {
+  return Item.find({});
 }
 
-async function getTopFive(){
-    return Item.find({}).sort({ createdAt: 'desc'}).limit(5);
+async function getTopFive() {
+  return Item.find({}).sort({ createdAt: "desc" }).limit(5);
 }
 
-function getById(id){
-    return Item.findById(id).populate('owner');
+async function getAllAdsByOwner(ownerId) {
+  return Item.find({ owner: ownerId }).sort('');
 }
 
-async function create(item){
-    const result = new Item(item);
-    await result.save();
-
-    const user = await User.findById(result.owner);
-    user.myAds.push(result._id);
-    await user.save();
-
-    return result;
+function getById(id) {
+  return Item.findById(id).populate("owner");
 }
 
-async function update(id, item){
-    const existing = await Item.findById(id);
+async function create(item) {
+  const result = new Item(item);
+  await result.save();
 
-     //TODO: Change names according to requirements
+  const user = await User.findById(result.owner);
+  user.myAds.push(result._id);
+  await user.save();
 
-    existing.name = item.name;
-    existing.description = item.description;
-    existing.location = item.location,
-    existing.price = item.price;
-    existing.img = item.img;
-
-    await existing.save();
-
-    return existing;
+  return result;
 }
 
-async function deleteById(id){
-    await Item.findByIdAndDelete(id);
+async function update(id, item) {
+  const existing = await Item.findById(id);
+
+  //TODO: Change names according to requirements
+
+  existing.name = item.name;
+  existing.description = item.description;
+  existing.location = item.location;
+  existing.price = item.price;
+  existing.img = item.img;
+  await existing.save();
+
+  return existing;
 }
 
+async function deleteById(id) {
+  await Item.findByIdAndDelete(id);
+}
+
+async function serachFunction(text) {
+  return Item.find({
+    $or: [
+      { name: { $regex: `${text}`, $options: "i" } },
+      { location: { $regex: `${text}`, $options: "i" } },
+    ],
+  });
+}
 
 module.exports = {
-    create,
-    getAll,
-    getById,
-    update,
-    deleteById,
- getTopFive,
-}
+  create,
+  getAll,
+  getById,
+  update,
+  deleteById,
+  getTopFive,
+  serachFunction,
+  getAllAdsByOwner,
+};
