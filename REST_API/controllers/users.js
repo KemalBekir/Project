@@ -1,6 +1,7 @@
 const router = require('express').Router();
-const { isGuest, isAuth } = require('../middleware/guards');
-const { register, login, logout, getProfile } = require('../services/users');
+const { application } = require('express');
+const { isGuest, isAuth, isOwner } = require('../middleware/guards');
+const { register, login, logout, getProfile, updateProfileInfo } = require('../services/users');
 const mapErrors = require('../utils/mappers');
 
 router.post('/register', isGuest(), async (req, res) => {
@@ -31,7 +32,6 @@ router.post('/login', isGuest(),async (req, res) => {
 
 router.get('/profile', isAuth(), async (req,res) =>{
     try{
-        console.log(req.params);
         const result = await getProfile(req.user);
         res.status(200).json(result);
     } catch (err) {
@@ -39,7 +39,24 @@ router.get('/profile', isAuth(), async (req,res) =>{
         const error = mapErrors(err);
         res.status(400).json({ message: error});
     }
-})
+});
+
+router.put('/profile', isOwner(), async (req,res) => {
+    const id = req.params.id;
+    const user = {
+        username: req.body.username,
+        email: req.body.email,
+        tel: req.body.tel
+    };
+     try {
+         const result = await updateProfileInfo(id, user);
+         res.json(result);
+     } catch (err) {
+         const error = mapErrors(err);
+         console.error(err.message);
+         res.status(400).json({ message: error });
+     }
+});
 
 router.get('/logout', (req, res) => {
     logout(req.user?.token);

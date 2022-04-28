@@ -50,7 +50,7 @@ export class UserService {
   }
 
   getProfileInfo(): Observable<any> {
-    const token = JSON.parse(sessionStorage.getItem('authToken'));
+    const token = this.getToken();
 
     if(token){
       let headers = new HttpHeaders({
@@ -59,6 +59,21 @@ export class UserService {
       });
       let options = { headers };
       return this.httpClient.get<IUser>(`${environment.apiUrl}/users/profile`, options).pipe(tap((user) => this.user = user));
+    }
+  }
+
+  updateProfile(data : { username: string; email: string; tel?: string;}) {
+    const token = this.getToken();
+
+    if(token) {
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'X-Authorization': token
+      });
+      let options = { headers };
+      return this.httpClient.put<IUser>(`${environment.apiUrl}/users/profile`, data, options).pipe(
+        tap((user) => this.user = user)
+      );
     }
   }
 

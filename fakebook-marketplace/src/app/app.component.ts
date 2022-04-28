@@ -15,7 +15,7 @@ export class AppComponent {
   }
 
   constructor(private userService: UserService, private router: Router) {
-   const token = JSON.parse(sessionStorage.getItem('authToken'));
+   const token = this.userService.getToken();
     if(!token){
       this.router.navigate(['/home']);
     } else {

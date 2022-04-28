@@ -1,38 +1,130 @@
 <!-- Page Content -->
-<div class="container bg-light">
+<ng-container *ngIf="!item">
+  <h1>Loading</h1>
+</ng-container>
+<ng-container *ngIf="item">
+  <ng-container *ngIf="inEditMode">
+    <section class="h-100">
+      <div class="container h-100">
+        <div class="row justify-content-sm-center h-100 mt-5">
+          <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+            <div class="card shadow-lg">
+              <div class="card-body p-5">
+                <h1 class="fs-4 card-title fw-bold mb-4">Edit listing</h1>
+                <form class="needs-validation" #editItemForm="ngForm" (ngSubmit)="updateItem(editItemForm)">
+                  <ng-container *ngIf="errorMessage">
+                    <div class="alert alert-danger .fade">{{errorMessage}}</div>
+                  </ng-container>
+                  <div class="mb-3">
+                    <label class="mb-2 text-muted" for="name">Name</label>
+                    <input id="name" type="text" class="form-control" name="name" #name="ngModel" [ngModel]="item.name" required
+                      minlength="4" value="">
+                    <ng-container *ngIf="name.touched && !name.valid">
+                      <p *ngIf="editItemForm.controls['name'].errors.required" class="error mt-1">
+                        Name field is required!
+                    </p>
+                    <p class="error mt-1">
+                      Name must be at least 4 characters long
+                    </p>
+                    </ng-container>
+                  </div>
+                  <div class="mb-3">
+                    <label class="mb-2 text-muted" for="description">Description</label>
+                    <textarea class="form-control" id="description" #description="ngModel" name="description" [ngModel]="item.description"
+                      rows="3"></textarea>
 
-  <!-- Portfolio Item Heading -->
-  <h1 class="mt-4 p-3">{{item?.name}}
-  </h1>
+                  </div>
 
-  <!-- Portfolio Item Row -->
-  <div class="row">
+                  <div class="mb-3">
+                    <label class="mb-2 text-muted" for="location">Location</label>
+                    <input id="location" type="text" class="form-control" name="location" #location="ngModel" [ngModel]="item.location"
+                      required minlength="5">
+                      <ng-container *ngIf="location.touched && !location.valid">
+                        <p *ngIf="editItemForm.controls['location'].errors.required" class="error mt-1">
+                          Location is required
+                        </p>
 
-    <div class="col-md-8">
-      <img class="img-fluid" src={{item?.img}} alt="">
-    </div>
+                        <p class="error mt-1">
+                          Location must be at least 5 characters long.
+                        </p>
+                      </ng-container>
 
-    <div class="col-md-4">
-      <div class="container">
-        <h3 >Description</h3>
-        <p>{{item?.description}}</p>
-        <h3 >Details</h3>
-        <ul>
-          <li>Price: {{item?.price}}</li>
-          <li>Location: {{item?.location}}</li>
-          <li>Tel: {{item?.owner.tel}}</li>
-          <li>E-Mail: {{item?.owner.email}}</li>
-        </ul>
-        <div>
-          <button type="button" class="btn btn-danger mt-5">Delete</button>
-          <button type="button" class="btn btn-warning mx-3 mt-5">Edit</button>
+                  </div>
+                  <div class="mb-3">
+                    <label class="mb-2 text-muted" for="price">Price</label>
+                    <input id="price" type="number" class="form-control" name="price" #price="ngModel" [ngModel]="item.price" required
+                      min="0">
+                      <ng-container *ngIf="price.touched && !price.valid">
+                        <p *ngIf="editItemForm.controls['price'].errors.required" class="error mt-1">
+                          Price is required
+                        </p>
+                        <p class="error mt-1">
+                          Price can be 0 or any positive number.
+                        </p>
+                      </ng-container>
+                  </div>
+                  <div class="mb-3">
+                    <label class="mb-2 text-muted" for="img">Image</label>
+                    <input id="img" type="text" class="form-control" name="img" #img="ngModel" [ngModel]="item.img" required min="0">
+                  </div>
+                  <div class="align-items-center d-flex ">
+                    <button class="btn btn-danger ms-auto" type="button" (click)="inEditMode = false">
+                      Cancel
+                    </button>
+                    <button class="btn btn-primary ms-auto" (click)="updateItem(editItemForm)">
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
+
+  </ng-container>
+  <ng-container *ngIf="!inEditMode">
+    <div class="container bg-light">
+
+      <!-- Portfolio Item Heading -->
+      <h1 class="mt-4 p-3">{{item?.name}}
+      </h1>
+
+      <!-- Portfolio Item Row -->
+      <div class="row">
+
+        <div class="col-md-8">
+          <img class="img-fluid" src={{item?.img}} alt="">
+        </div>
+
+        <div class="col-md-4">
+          <div class="container">
+            <h3>Description</h3>
+            <p>{{item?.description}}</p>
+            <h3>Details</h3>
+            <ul>
+              <li>Price: {{(item?.price == 0) ? 'Free' : item?.price}}</li>
+              <li>Location: {{item?.location}}</li>
+              <ng-container *ngIf="currentUser">
+                <li>Tel: {{item?.owner.tel}}</li>
+                <li>E-Mail: {{item?.owner.email}}</li>
+              </ng-container>
+            </ul>
+            <ng-container *ngIf="isOwner">
+              <div>
+                <button type="button" (click)="deleteItem()" class="btn btn-danger mt-5">Delete</button>
+                <button type="button" (click)="inEditMode = true" class="btn btn-warning mx-3 mt-5">Edit</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+
+      </div>
+      <!-- /.row -->
+
     </div>
-
-
-  </div>
-  <!-- /.row -->
-
-</div>
-<!-- /.container -->
+  </ng-container>
+  <!-- /.container -->
+</ng-container>

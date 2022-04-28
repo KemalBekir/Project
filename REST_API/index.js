@@ -33,7 +33,7 @@ async function start() {
 
 
     //TODO: Change path name according to the requirements of the project
-    app.use('/data/catalog', catalogController);
+    // app.use('/data/catalog', catalogController);
 
     app.get('/', (req, res) => {
         res.json({ message: 'REST servise operational' });

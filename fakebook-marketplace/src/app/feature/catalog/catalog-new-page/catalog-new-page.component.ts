@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { kill } from 'process';
 import { CatalogService } from 'src/app/core/catalog.service';
 
 @Component({
@@ -27,6 +28,8 @@ export class CatalogNewPageComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.errorMessage = err.error.message;
+        console.log(this.errorMessage);
+
       }
     })
 

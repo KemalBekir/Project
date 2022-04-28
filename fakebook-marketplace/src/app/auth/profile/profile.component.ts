@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { CatalogService } from 'src/app/core/catalog.service';
+import { IItem, IUser } from 'src/app/core/interfaces';
 import { UserService } from 'src/app/core/user.service';
 
 @Component({
@@ -7,25 +8,25 @@ import { UserService } from 'src/app/core/user.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-  inUpdateMode = false;
+  user: IUser;
+  itemList: IItem[];
 
-  get user() {
-    return this.userService.user;
+  constructor(private userService: UserService, private catalogService: CatalogService) { }
+
+  ngOnInit(): void {
+    this.userService.getProfileInfo().subscribe( user => {
+      this.user = user;
+      if(this.user.myAds){
+        this.catalogService.loadAllMyAds().subscribe({
+          next: (itemList) => {
+            this.itemList = itemList;
+          }
+        });
+      }
+
+    })
   }
 
-  constructor(private userService: UserService) { }
-
-  // updateProfile(form: NgForm): void {
-  //   if (form.invalid) { return; }
-  //    this.userService.updateProfile(form.value).subscribe({
-  //     next: () => {
-  //       this.inUpdateMode = false;
-  //     },
-  //     error: (err) => {
-  //       console.error(err);
-  //     }
-  //   })
-  // }
 }

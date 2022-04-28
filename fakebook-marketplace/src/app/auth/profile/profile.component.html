@@ -2,7 +2,7 @@
 <div class="container">
 
   <!-- Portfolio Item Heading -->
-  <h1 class="my-4">Username
+  <h1 class="my-4 text-center">{{user?.username | uppercase}}`s
     <small>profile</small>
   </h1>
 
@@ -16,10 +16,8 @@
     <div class="col-md-4">
       <h3 class="my-3">User Details</h3>
       <ul>
-        <li>Lorem Ipsum</li>
-        <li>Dolor Sit Amet</li>
-        <li>Consectetur</li>
-        <li>Adipiscing Elit</li>
+        <li><h5>Email: {{user?.email}}</h5></li>
+        <li *ngIf="user?.tel" >Tel: {{user?.tel}}</li>
       </ul>
     </div>
 
@@ -27,36 +25,22 @@
   <!-- /.row -->
 
   <!-- Related Projects Row -->
-  <h3 class="my-4">Related Projects</h3>
+  <ng-container *ngIf="user?.myAds.length > 0">
+  <h3 class="my-4">My listings</h3>
 
   <div class="row">
-
+    <ng-container *ngFor="let item of itemList">
     <div class="col-md-3 col-sm-6 mb-4">
-      <a href="#">
-            <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+      <a [routerLink]="['/catalog', item._id]">
+            <img class="img-fluid" src={{item.img}} alt="">
           </a>
     </div>
-
-    <div class="col-md-3 col-sm-6 mb-4">
-      <a href="#">
-            <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
-          </a>
-    </div>
-
-    <div class="col-md-3 col-sm-6 mb-4">
-      <a href="#">
-            <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
-          </a>
-    </div>
-
-    <div class="col-md-3 col-sm-6 mb-4">
-      <a href="#">
-            <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
-          </a>
-    </div>
-
+  </ng-container>
   </div>
   <!-- /.row -->
-
+</ng-container>
+<ng-container >
+  <h3 class="my-4">No listings yet</h3>
+</ng-container>
 </div>
 <!-- /.container -->

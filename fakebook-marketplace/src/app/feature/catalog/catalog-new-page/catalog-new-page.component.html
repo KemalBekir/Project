@@ -13,9 +13,14 @@
                 <label class="mb-2 text-muted" for="name">Name</label>
                 <input id="name" type="text" class="form-control" name="name" #name="ngModel" ngModel required
                   minlength="4">
-                <div class="invalid-feedback">
-                  Name is invalid
-                </div>
+               <ng-container *ngIf="name.touched && !name.valid">
+                 <p *ngIf="newItemForm.controls['name'].errors.required" class="error mt-1">
+                   Name field is required
+                 </p>
+                 <p class="error mt-1">
+                  Name must be at least 4 characters long
+                 </p>
+               </ng-container>
               </div>
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="description">Description</label>
@@ -26,25 +31,32 @@
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="location">Location</label>
                 <input id="location" type="text" class="form-control" name="location" #location="ngModel" ngModel
-                  required minlength="5">
-                <div class="invalid-feedback">
-                  Location is required
-                </div>
+                required minlength="5">
+                <ng-container *ngIf="location.touched && !location.valid">
+                  <p *ngIf="newItemForm.controls['location'].errors.required" class="error mt-1">
+                    Location is required
+                  </p>
+                  <p class="error mt-1">
+                    Location must be at least 5 characters long
+                  </p>
+                </ng-container>
               </div>
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="price">Price</label>
                 <input id="price" type="number" class="form-control" name="price" #price="ngModel" ngModel required
                   min="0">
-                <div class="invalid-feedback">
-                  Price is required
-                </div>
+                <ng-container *ngIf="price.touched && !price.valid">
+                  <p *ngIf="newItemForm.controls['price'].errors.required" class="error mt-1">
+                    Price is required
+                  </p>
+                  <p class="error mt-1">
+                    Price could be 0 or any positive number
+                  </p>
+                </ng-container>
               </div>
               <div class="mb-3">
                 <label class="mb-2 text-muted" for="img">Image</label>
                 <input id="img" type="text" class="form-control" name="img" #img="ngModel" ngModel required min="0">
-                <div class="invalid-feedback">
-                  Price is required
-                </div>
               </div>
               <div class="align-items-center d-flex ">
                 <button class="btn btn-danger ms-auto" routerLink="/catalog">

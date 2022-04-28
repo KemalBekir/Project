@@ -81,10 +81,19 @@ async function getProfile(id) {
   return user;
 }
 
+async function updateProfileInfo(id,user){
+    const existing = await User.findById(id);
+
+    existing.username = user.username;
+    existing.email = user.email;
+    existing.tel = user.tel;
+}
+
 module.exports = {
   login,
   register,
   logout,
   verifySession,
   getProfile,
+  updateProfileInfo,
 };
