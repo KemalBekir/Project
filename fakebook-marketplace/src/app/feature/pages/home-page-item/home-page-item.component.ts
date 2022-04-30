@@ -1,5 +1,6 @@
 import { Component, OnChanges, Input, SimpleChanges } from '@angular/core';
 import { IItem } from 'src/app/core/interfaces';
+import { UserService } from 'src/app/core/user.service';
 
 @Component({
   selector: 'app-home-page-item',
@@ -7,11 +8,10 @@ import { IItem } from 'src/app/core/interfaces';
   styleUrls: ['./home-page-item.component.css']
 })
 export class HomePageItemComponent implements OnChanges {
-
   @Input () item: IItem;
 
-  constructor() { }
-
+  constructor(private userService: UserService) { }
+  isLogged = this.userService.isLogged;
  ngOnChanges(changes: SimpleChanges): void {
 
  }

@@ -1,5 +1,10 @@
 <div class="card m-2 p-2" style="width: 10rem">
+  <ng-container *ngIf="isLogged">
+  <img  class="card-img-top" src={{item.img}} alt="Card image cap" [routerLink]="['/catalog', item._id]">
+</ng-container>
+<ng-container *ngIf="!isLogged">
   <img class="card-img-top" src={{item.img}} alt="Card image cap">
+</ng-container>
   <div class="card-body">
     <h5 class="card-title">{{item.name}}</h5>
     <p class="card-text">{{(item.description.length > 15) ? (item.description | slice: 0:15) + '...': (item.description)}}</p>
