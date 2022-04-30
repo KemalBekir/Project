@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CatalogService } from 'src/app/core/catalog.service';
 import { IItem, IUser } from 'src/app/core/interfaces';
 import { UserService } from 'src/app/core/user.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +15,7 @@ export class ProfileComponent implements OnInit {
   user: IUser;
   itemList: IItem[];
 
-  constructor(private userService: UserService, private catalogService: CatalogService) { }
+  constructor(private userService: UserService, private catalogService: CatalogService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.userService.getProfileInfo().subscribe( user => {

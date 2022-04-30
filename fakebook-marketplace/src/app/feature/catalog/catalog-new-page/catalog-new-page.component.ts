@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { kill } from 'process';
 import { CatalogService } from 'src/app/core/catalog.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-catalog-new-page',
@@ -12,7 +13,7 @@ import { CatalogService } from 'src/app/core/catalog.service';
 export class CatalogNewPageComponent implements OnInit {
   errorMessage? = '';
 
-  constructor(private router: Router, private catalogService: CatalogService) { }
+  constructor(private router: Router, private catalogService: CatalogService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -22,13 +23,13 @@ export class CatalogNewPageComponent implements OnInit {
     this.catalogService.addItem$(newItemForm.value).subscribe({
       next: (item) => {
         console.log('addItem next', item);
-
+        this.toastr.success('New listing created');
         this.router.navigate(['/catalog']);
       },
       error: (err) => {
         console.error(err);
         this.errorMessage = err.error.message;
-        console.log(this.errorMessage);
+        this.toastr.error(err.error.message);
 
       }
     })

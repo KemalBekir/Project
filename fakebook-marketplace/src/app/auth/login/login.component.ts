@@ -7,6 +7,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/core/user.service';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -54,10 +57,12 @@ export class LoginComponent implements OnInit {
         }
       },
       complete: () => {
-        console.log('login stream completed');
+        this.toastr.success('You logged in successfully');
       },
       error: (err) => {
         this.errorMessage = err.error.message;
+        this.toastr.error(err.message);
+
         this.isLoginFailed = true;
       },
     });

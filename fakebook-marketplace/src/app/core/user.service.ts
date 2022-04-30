@@ -18,7 +18,10 @@ export class UserService {
   user: IUser | null | undefined = undefined;
 
   get isLogged(): boolean {
-    return !!this.user
+    if(this.getToken()){
+      return true;
+    }
+    return false;
   }
 
   constructor(private httpClient: HttpClient) {}

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { CreateUserDto, UserService } from 'src/app/core/user.service';
 import { passMatch } from '../util';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +27,7 @@ export class RegisterComponent implements OnInit {
     'telRegion': new FormControl('')
   })
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -46,15 +47,17 @@ export class RegisterComponent implements OnInit {
 
     this.userService.register$(body).subscribe({
       next: data => {
+        this.toastr.success('You registered successfully');
         console.log(data);
+        this.router.navigate(['/home']);
 
         this.isSuccessful = true;
         this.isSignUpFailed = false;
       },
       error: err => {
-        this.errorMessage
+        this.toastr.error(err.error.message);
+
       }
-      //this.router.navigate(['/home']);
     })
   }
 

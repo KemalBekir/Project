@@ -16,14 +16,14 @@ export class AppComponent {
 
   constructor(private userService: UserService, private router: Router) {
    const token = this.userService.getToken();
-    if(!token){
-      this.router.navigate(['/home']);
-    } else {
+    if(token){
       this.userService.getProfileInfo().subscribe({
         error: () => {
           this.userService.user = null;
         }
       })
     }
+    // this.router.navigate(['/login']);
+
   }
 }

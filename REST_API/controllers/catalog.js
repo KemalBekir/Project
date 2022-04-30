@@ -81,8 +81,10 @@ router.delete("/:id", preload(), isOwner(), async (req, res) => {
 });
 
 router.get("/search", async (req, res) => {
+  console.log('---> Controller',req.query.text);
   try {
-    const result = await api.serachFunction(req.query.text);
+    const result = await api.searchFunction(req.query.text);
+    res.json(result);
   } catch (err) {
     const error = mapErrors(err);
     console.error(err.message);

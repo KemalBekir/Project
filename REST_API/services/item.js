@@ -10,7 +10,7 @@ async function getTopFive() {
 }
 
 async function getAllAdsByOwner(ownerId) {
-  return Item.find({ owner: ownerId }).sort('');
+  return Item.find({ owner: ownerId }).sort("");
 }
 
 function getById(id) {
@@ -47,12 +47,10 @@ async function deleteById(id) {
   await Item.findByIdAndDelete(id);
 }
 
-async function serachFunction(text) {
+async function searchFunction(text) {
+  console.log("----> Services", text);
   return Item.find({
-    $or: [
-      { name: { $regex: `${text}`, $options: "i" } },
-      { location: { $regex: `${text}`, $options: "i" } },
-    ],
+    $or: [{ name: { $regex: `${text}` } }, { location: { $regex: `${text}` } }],
   });
 }
 
@@ -63,6 +61,6 @@ module.exports = {
   update,
   deleteById,
   getTopFive,
-  serachFunction,
+  searchFunction,
   getAllAdsByOwner,
 };

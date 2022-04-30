@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -86,5 +86,11 @@ export class CatalogService {
   loadTopFive(): Observable<IItem[]> {
     let item = this.http.get<IItem[]>(`${apiUrl}/data/catalog/top5`);
     return item;
+  }
+
+  searchItems(term: string): Observable<IItem[]> {
+    const params = new HttpParams().set('text',`${term}`);
+    let itemList = this.http.get<IItem[]>(`${apiUrl}/data/catalog/search`, { params });
+    return itemList;
   }
 }

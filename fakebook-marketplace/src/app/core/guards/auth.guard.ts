@@ -10,15 +10,11 @@ export class AuthActivate implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     const { authenticationRequired, authenticationFailureRedirectUrl } = route.data;
+
     if (
       typeof authenticationRequired === 'boolean' &&
       authenticationRequired === this.userService.isLogged
-
-    ) { console.log(authenticationRequired); return true; }
-
-    if(typeof authenticationRequired === 'boolean' && this.userService.getToken()){
-      return true;
-    }
+    ) { return true; }
 
     let authRedirectUrl = authenticationFailureRedirectUrl
     if (authenticationRequired) {
@@ -26,7 +22,11 @@ export class AuthActivate implements CanActivate {
       authRedirectUrl += `?redirectUrl=${loginRedirectUrl}`;
     }
 
-    return this.router.parseUrl(authRedirectUrl || '/');
+    return this.router.createUrlTree(['/login'], {
+      queryParams: {
+        'redirect-to': '/' + route.url.map(f => f.path).join('/')
+      }
+    });
   }
 
 }

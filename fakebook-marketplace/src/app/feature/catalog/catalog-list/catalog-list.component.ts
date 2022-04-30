@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { CatalogService } from 'src/app/core/catalog.service';
 import { IItem } from 'src/app/core/interfaces';
 
@@ -10,6 +11,7 @@ import { IItem } from 'src/app/core/interfaces';
 export class CatalogListComponent implements OnInit {
 
   itemList: IItem[];
+  inSearchMode = false;
 
   constructor(private catalogService: CatalogService) { }
 
@@ -18,5 +20,7 @@ export class CatalogListComponent implements OnInit {
       this.itemList = itemList;
     });
   }
+
+
 
 }

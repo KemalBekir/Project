@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { assertPlatform, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CatalogService } from 'src/app/core/catalog.service';
 import { IItem } from 'src/app/core/interfaces';
 
@@ -14,7 +14,7 @@ export class CatalogDetailPageComponent implements OnInit {
   isOwner = false;
 
   item: IItem;
-  constructor(private activatedRoute: ActivatedRoute, private catalogService: CatalogService) { }
+  constructor(private activatedRoute: ActivatedRoute, private catalogService: CatalogService, private router: Router) { }
 
  get currentUser(): string {
    return JSON.parse(sessionStorage.getItem('_id'));
@@ -45,6 +45,21 @@ export class CatalogDetailPageComponent implements OnInit {
         console.error(err);
       }
     })
+  }
+
+  deleteItem(): void {
+    let result = confirm('Are you sure you want to delete this item?');
+    const itemId = this.activatedRoute.snapshot.params['itemId'];
+    if(result){
+      this.catalogService.deleteItem(itemId).subscribe({
+        next: () => {
+          this.router.navigate(['/catalog'])
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+    }
   }
 
 }
