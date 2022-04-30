@@ -11,10 +11,12 @@ export class HomePageListComponent implements OnInit {
 
   itemList: IItem[];
   firstItem: IItem;
-
+  isLogged: boolean = false;
   constructor(private catalogService: CatalogService) { }
 
+
   ngOnInit(): void {
+
     this.catalogService.loadTopFive().subscribe( itemList =>{
       this.itemList = itemList;
     })
