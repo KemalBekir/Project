@@ -20,7 +20,12 @@ const routes: Routes = [
   },
   {
     path: 'catalog/:itemId',
-    component: CatalogDetailPageComponent
+    component: CatalogDetailPageComponent,
+    canActivate: [AuthActivate],
+    data: {
+      authenticationRequired: true,
+      authenticationFailureRedirectUrl: '/login',
+    }
   }
 ]
 

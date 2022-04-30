@@ -107,7 +107,7 @@
               <li>Price: {{(item?.price == 0) ? 'Free' : item?.price}}</li>
               <li>Location: {{item?.location}}</li>
               <ng-container *ngIf="currentUser">
-                <li>Tel: {{item?.owner.tel}}</li>
+                <li *ngIf="item?.owner.tel">Tel: {{item?.owner.tel}}</li>
                 <li>E-Mail: {{item?.owner.email}}</li>
               </ng-container>
             </ul>
